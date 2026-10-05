@@ -59,9 +59,10 @@ onMounted(() => startTimer())
 onUnmounted(() => stopTimer())
 
 /* Transitions allégées : pas de blur/filter (très coûteux GPU) */
+/* Transitions allégées : pas de blur/filter (très coûteux GPU) */
 const slideVariants = {
-  enter: (dir: number) => ({
-    x: dir > 0 ? '40%' : '-40%',
+  enter: (dir: unknown) => ({
+    x: (dir as number) > 0 ? '40%' : '-40%',
     opacity: 0,
     scale: 0.96
   }),
@@ -70,8 +71,8 @@ const slideVariants = {
     opacity: 1,
     scale: 1
   },
-  exit: (dir: number) => ({
-    x: dir < 0 ? '40%' : '-40%',
+  exit: (dir: unknown) => ({
+    x: (dir as number) < 0 ? '40%' : '-40%',
     opacity: 0,
     scale: 0.96
   })
