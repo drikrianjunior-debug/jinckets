@@ -1,0 +1,461 @@
+@import "tailwindcss";
+
+@theme {
+  --color-night-blue: #0a1628;
+  --color-starry-black: #050510;
+  --color-dark-violet: #2d1b4e;
+  --color-dark-gold: #c9a227;
+  --color-accent-gold: #e8c547;
+  --color-soft-violet: #6b4c9a;
+  --color-light-bg: #fff8f0;
+  --color-light-card: #ffffff;
+  --font-outfit: "Outfit", system-ui, sans-serif;
+  --font-space: "Space Grotesk", system-ui, sans-serif;
+}
+
+/* ─── DARK : nuit étoilée festive, chic, décalée ─── */
+:root {
+  --bg-primary: #050510;
+  --bg-secondary: #0a1628;
+  --bg-card: #12122a;
+  --bg-sidebar: #0d0d1f;
+  --text-primary: #f5f0ff;
+  --text-secondary: #b8b0d0;
+  --accent: #c9a227;
+  --accent-hover: #e8c547;
+  --border: #2d1b4e;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --glow: rgba(232, 197, 71, 0.35);
+}
+
+/* ─── LIGHT : soleil d'été nostalgique ─── */
+html.light {
+  --bg-primary: #fff8f0;
+  --bg-secondary: #fffef9;
+  --bg-card: #ffffff;
+  --bg-sidebar: #fff3e6;
+  --text-primary: #3d2c1e;
+  --text-secondary: #8a7060;
+  --accent: #d4831a;
+  --accent-hover: #e8a03a;
+  --border: #f0d9c0;
+  --glow: rgba(232, 160, 58, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #app {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: var(--font-outfit);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* Starry night — fun, festive, chic (allégé pour les perfs) */
+.starry-bg {
+  background:
+    radial-gradient(ellipse 80% 50% at 15% 40%, rgba(90, 40, 140, 0.4) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 85% 20%, rgba(20, 40, 90, 0.45) 0%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 12% 18%, rgba(255, 240, 180, 0.9), transparent),
+    radial-gradient(2px 2px at 48% 28%, rgba(232, 197, 71, 0.95), transparent),
+    radial-gradient(1px 1px at 72% 78%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1.5px 1.5px at 88% 35%, rgba(232, 197, 71, 0.75), transparent),
+    linear-gradient(165deg, #050510 0%, #0a1228 35%, #1a1040 70%, #2d1b4e 100%);
+  /* Pas d'animation continue sur le background = gros gain GPU */
+}
+
+/* Summer sun nostalgic */
+html.light .starry-bg {
+  background:
+    radial-gradient(ellipse 90% 60% at 80% 10%, rgba(255, 200, 100, 0.35) 0%, transparent 50%),
+    radial-gradient(ellipse 70% 50% at 20% 80%, rgba(255, 160, 80, 0.15) 0%, transparent 45%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(255, 220, 160, 0.2) 0%, transparent 60%),
+    linear-gradient(180deg, #fff5e8 0%, #ffe8cc 40%, #ffd9a8 100%);
+  animation: none;
+}
+
+/* Grain retiré : overlay fixed + feTurbulence = coûteux en scroll/repaint */
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #c9a227, #e8c547, #c9a227);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html.light .gold-gradient {
+  background: linear-gradient(135deg, #c47820, #e8a03a, #c47820);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass {
+  background: rgba(18, 18, 42, 0.85);
+  /* blur réduit : gros gain perf sur mobile */
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(201, 162, 39, 0.18);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+html.light .glass {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(212, 131, 26, 0.15);
+  box-shadow: 0 4px 16px rgba(180, 120, 40, 0.08);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #c9a227, #e8c547);
+  color: #050510;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 16px var(--glow);
+}
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--glow);
+}
+
+html.light .btn-gold {
+  background: linear-gradient(135deg, #d4831a, #e8a03a);
+  color: #fff;
+}
+
+.btn-outline-gold {
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  background: transparent;
+  transition: all 0.3s ease;
+}
+.btn-outline-gold:hover {
+  background: var(--accent);
+  color: var(--bg-primary);
+  box-shadow: 0 6px 20px var(--glow);
+}
+
+/* Fun floating animation utility */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.animate-float {
+  animation: float-y 4s ease-in-out infinite;
+}
+
+/* Respecte les préférences d'accessibilité / perf */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Landing ambiance (accueil only) ── */
+.landing-atmosphere {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Nuit concert / camping — étoiles */
+.landing-star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff8dc;
+  box-shadow: 0 0 4px 1px rgba(232, 197, 71, 0.45);
+  will-change: opacity, transform;
+  animation: star-twinkle var(--dur, 3s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+.landing-star.gold {
+  background: #e8c547;
+  box-shadow: 0 0 6px 2px rgba(232, 197, 71, 0.55);
+}
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+/* Halo scène / feu de camp */
+.landing-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  will-change: transform, opacity;
+  animation: glow-pulse 8s ease-in-out infinite;
+}
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(1.12); }
+}
+
+/* Feuilles automne (thème clair) */
+.landing-leaf {
+  position: absolute;
+  top: -40px;
+  width: 16px;
+  height: 16px;
+  background: #c45c26;
+  border-radius: 0 70% 0 70%;
+  opacity: 0.85;
+  will-change: transform, opacity;
+  animation-name: leaf-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  z-index: 1;
+}
+@keyframes leaf-fall {
+  0% {
+    transform: translate3d(0, -5vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(var(--leaf-x, 50px), 110vh, 0) rotate(520deg);
+    opacity: 0.15;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-star,
+  .landing-leaf,
+  .landing-glow {
+    animation: none !important;
+  }
+  .landing-star { opacity: 0.6; }
+  .landing-leaf { display: none; }
+}
+
+/* ── Transitions fluides globales ── */
+a, button, .glass, input, select, textarea, label {
+  transition:
+    color 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.25s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Modal / overlay */
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.modal-fade-enter-active .modal-panel,
+.modal-fade-leave-active .modal-panel,
+.modal-fade-enter-active .checkout-sheet,
+.modal-fade-leave-active .checkout-sheet {
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+}
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
+}
+.modal-fade-enter-from .modal-panel,
+.modal-fade-enter-from .checkout-sheet {
+  transform: translateY(24px) scale(0.96);
+  opacity: 0;
+}
+.modal-fade-leave-to .modal-panel,
+.modal-fade-leave-to .checkout-sheet {
+  transform: translateY(12px) scale(0.98);
+  opacity: 0;
+}
+@media (min-width: 640px) {
+  .modal-fade-enter-from .checkout-sheet {
+    transform: translateY(12px) scale(0.96);
+  }
+}
+
+/* Liste / cartes */
+.list-stagger-enter-active {
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.list-stagger-enter-from {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.list-stagger-leave-active {
+  transition: all 0.2s ease;
+  position: absolute;
+}
+.list-stagger-leave-to {
+  opacity: 0;
+  transform: scale(0.96);
+}
+.list-stagger-move {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Responsive helpers ── */
+.page-pad {
+  padding: 1rem;
+}
+@media (min-width: 640px) {
+  .page-pad { padding: 1.5rem; }
+}
+@media (min-width: 768px) {
+  .page-pad { padding: 2rem 2.5rem; }
+}
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.table-scroll table {
+  min-width: 560px;
+}
+
+/* Checkout sheet mobile */
+.checkout-sheet {
+  max-height: min(90vh, 640px);
+  overflow-y: auto;
+}
+
+/* Cart bar: leave room for bottom nav on mobile */
+.cart-float {
+  bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+  left: 0.75rem;
+  right: 0.75rem;
+  width: auto;
+  max-width: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (min-width: 640px) {
+  .cart-float {
+    left: 50%;
+    right: auto;
+    width: max-content;
+    max-width: calc(100vw - 2rem);
+    /* centrage sans transform (évite conflit motion-v) */
+    margin-left: 0;
+    translate: -50% 0;
+  }
+}
+@media (min-width: 768px) {
+  .cart-float {
+    bottom: 1.5rem;
+  }
+}
+
+/* Prevent horizontal overflow */
+html, body, #app {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* KPI / long numbers on small screens */
+.kpi-value {
+  font-size: clamp(0.95rem, 2.8vw, 1.5rem);
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+/* Modal safe on small screens */
+.modal-panel {
+  max-height: min(92vh, 720px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Panier flottant */
+.cart-pop-enter-active {
+  transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cart-pop-leave-active {
+  transition: opacity 0.2s ease, transform 0.25s ease;
+}
+.cart-pop-enter-from {
+  opacity: 0;
+  transform: translateY(28px) scale(0.94);
+}
+.cart-pop-leave-to {
+  opacity: 0;
+  transform: translateY(16px) scale(0.96);
+}
+@media (min-width: 640px) {
+  .cart-pop-enter-from,
+  .cart-pop-leave-to {
+    /* conserve le centrage translate -50% */
+    transform: translate(-50%, 28px) scale(0.94);
+  }
+  .cart-pop-leave-to {
+    transform: translate(-50%, 16px) scale(0.96);
+  }
+}
+
+.nav-item-smooth {
+  transition:
+    background-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.25s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav-item-smooth:active {
+  transform: scale(0.92);
+}
+
+/* ── Scroll reveal animations ── */
+.reveal {
+  opacity: 0;
+  will-change: transform, opacity;
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.7s ease;
+}
+.reveal-up { transform: translate3d(0, 36px, 0); }
+.reveal-down { transform: translate3d(0, -28px, 0); }
+.reveal-left { transform: translate3d(-40px, 0, 0); }
+.reveal-right { transform: translate3d(40px, 0, 0); }
+.reveal-scale { transform: scale(0.92); }
+.reveal-fade { transform: none; filter: blur(6px); }
+
+.reveal-visible {
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0) scale(1) !important;
+  filter: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
